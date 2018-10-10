@@ -40,6 +40,36 @@ server.get('/api/cohorts/:id/students', (req, res) => {
         });
 })
 
+server.post('/api/cohorts', (req, res) => {
+    db.insert(req.body).into('cohorts')
+        .then(id => {
+            res.status(201).json(id);
+        })
+        .catch(err => {
+            res.status(500).json({ Error: err });
+        })
+})
+
+server.put('/api/cohorts/:id', (req, res) => {
+    db.update(req.body).into('cohorts').where({ id: req.params.id })
+        .then(id => {
+            res.status(200).json(id);
+        })
+        .catch(err => {
+            res.status(500).json({ Error: err });
+        });
+})
+
+server.delete('/api/cohorts/:id', (req, res) => {
+    db.del().into('cohorts').where({ id: req.params.id })
+        .then(id => {
+            res.status(200).json(id);
+        })
+        .catch(err => {
+            res.status(500).json({ Error: err });
+        });
+})
+
 
 
 server.listen(PORT, () => console.log(` ====== Server listening on port ${PORT} ====== `))
